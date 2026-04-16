@@ -1,4 +1,4 @@
-# ban-youtube
+# ban-shorts
 
 YouTube Shorts をブロックする Chrome 拡張機能（Arc / Chrome 対応）。
 

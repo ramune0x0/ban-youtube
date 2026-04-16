@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "ban-youtube",
+  "name": "ban-shorts",
   "version": "0.1.0",
   "description": "YouTube Shorts をブロックする拡張機能",
   "permissions": [

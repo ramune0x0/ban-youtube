@@ -46,7 +46,7 @@ const HIDE_CSS = `
 `;
 
 const style = document.createElement("style");
-style.id = "ban-youtube-hide-shorts";
+style.id = "ban-shorts-hide-shorts";
 style.textContent = HIDE_CSS;
 (document.head || document.documentElement).appendChild(style);
 
