@@ -1,14 +1,16 @@
 # ban-youtube
 
-YouTube の視聴をコントロールするためのツール群。
+YouTube Shorts をブロックする Chrome 拡張機能と、Mac 用の hosts ブロッカー。
 
-- **PC ブラウザでは Shorts だけ止めたい**（勉強動画は見たい）→ Chrome 拡張
-- **スマホでは YouTube 全体を止めたい**（時間の浪費・勉強目的なら PC で）→ NextDNS
-
-## 1. Shorts ブロック Chrome 拡張（Phase 1 完了）
+## 1. Shorts ブロック Chrome 拡張
 
 Arc / Chrome で動作する Shorts 専用ブロッカー。
-設計の詳細は [`docs/adr/0001-browser-extension-blocker.md`](docs/adr/0001-browser-extension-blocker.md)。
+
+- `*://*.youtube.com/shorts/*` と `*://youtu.be/shorts/*` をブロック画面へリダイレクト
+- SPA 内部遷移にも対応（ページ内で Shorts に飛ばされても即リダイレクト）
+- ホーム・サイドバー・検索結果の Shorts 関連 UI を DOM から非表示
+
+設計の詳細は [`docs/adr/0001-browser-extension-blocker.md`](docs/adr/0001-browser-extension-blocker.md) を参照。
 
 ### インストール（開発者モードでローカル読み込み）
 
@@ -17,19 +19,10 @@ Arc / Chrome で動作する Shorts 専用ブロッカー。
 3. **パッケージ化されていない拡張機能を読み込む** をクリック
 4. このリポジトリの `extension/` ディレクトリを選択
 
-読み込むと `*.youtube.com/shorts/*` と `youtu.be/shorts/*` がブロック画面にリダイレクトされ、
-ホーム・サイドバー・検索結果の Shorts 関連 UI も非表示になる。
+## 2. hosts ブロッカー（Mac 向け補助）
 
-## 2. スマホで YouTube 全体ブロック（NextDNS）
-
-iPhone / Android のすべてのアプリ・ブラウザから YouTube を遮断する個人運用向け手順。
-Shorts だけを選択的にブロックすることは DNS レベルでは不可能なため、**YouTube 全体を止める**
-割り切り運用。手順は [`docs/nextdns-setup.md`](docs/nextdns-setup.md) を参照。
-
-## 3. hosts ブロッカー（Mac ローカル）
-
-`/etc/hosts` を編集して自分の Mac だけ YouTube を遮断する軽量版。
-NextDNS を使うほどでもない検証用や、短時間の集中ブロックに。
+`/etc/hosts` を編集して自分の Mac だけ YouTube 全体を一時遮断する軽量スクリプト。
+拡張とは独立。Python 3.10+ の標準ライブラリのみで動作（追加依存なし）。
 
 ```bash
 sudo python scripts/hosts_blocker.py on      # ブロック有効化
@@ -37,9 +30,7 @@ sudo python scripts/hosts_blocker.py off     # ブロック解除
 sudo python scripts/hosts_blocker.py status  # 状態確認
 ```
 
-## セットアップ（Python 側）
+## 関連ドキュメント
 
-```bash
-# Python 3.12+
-uv sync
-```
+- スマホで YouTube 全体をブロックしたい場合の手順（NextDNS 推奨）:
+  [`docs/nextdns-setup.md`](docs/nextdns-setup.md)
