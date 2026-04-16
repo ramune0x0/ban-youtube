@@ -1,32 +1,29 @@
 # ban-youtube
 
-YouTube の視聴をブロックするツール群。
-
-## 概要
-
-- `/etc/hosts` ベースの Mac 向けブロックスクリプト
-- 自作 DNS ブロッカー（クロスデバイス対応、プロダクト化を視野）
+YouTube Shorts をブロックする Chrome 拡張機能（MV3）。
 
 ## 技術スタック
 
-- Python（スクリプト・DNS サーバー）
-- uv（パッケージ管理）
-
-## コマンド
-
-```bash
-# hosts ブロックの ON/OFF
-sudo python scripts/hosts_blocker.py on
-sudo python scripts/hosts_blocker.py off
-
-# DNS サーバー起動（開発中）
-# uv run python -m ban_youtube.server
-```
+- JavaScript（素の JS、ビルド無し）
+- WebExtension API: `declarativeNetRequest`, content script
 
 ## ディレクトリ構成
 
 ```
-scripts/         # 単発スクリプト（hosts_blocker 等）
-src/ban_youtube/ # 自作 DNS ブロッカー本体
-docs/            # 設計ドキュメント
+extension/   # 拡張機能本体（manifest.json, content.js, rules/, blocked.html）
+docs/adr/    # 設計判断の記録
+docs/        # 設定手順（NextDNS 等）
 ```
+
+## 動作確認（開発者モード）
+
+1. Arc / Chrome で `chrome://extensions`
+2. デベロッパーモード ON
+3. 「パッケージ化されていない拡張機能を読み込む」→ `extension/` を選択
+4. コード変更後は更新アイコン（🔄）で再読み込み
+
+## 配布方針（Phase 2 予定）
+
+Chrome ウェブストア公開（$5 の開発者登録・生涯有効）。Safari / iPhone 対応は
+コスト（$99/年）に見合わないため ADR で不採用決定済み。スマホは NextDNS で
+YouTube 全体ブロックという運用を推奨（`docs/nextdns-setup.md`）。
