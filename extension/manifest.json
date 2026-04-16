@@ -1,0 +1,40 @@
+{
+  "manifest_version": 3,
+  "name": "ban-youtube",
+  "version": "0.1.0",
+  "description": "YouTube Shorts をブロックする拡張機能",
+  "permissions": [
+    "declarativeNetRequest"
+  ],
+  "host_permissions": [
+    "*://*.youtube.com/*",
+    "*://youtu.be/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.youtube.com/*"
+      ],
+      "js": ["content.js"],
+      "run_at": "document_start"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["blocked.html"],
+      "matches": [
+        "*://*.youtube.com/*",
+        "*://youtu.be/*"
+      ]
+    }
+  ],
+  "declarative_net_request": {
+    "rule_resources": [
+      {
+        "id": "shorts",
+        "enabled": true,
+        "path": "rules/shorts.json"
+      }
+    ]
+  }
+}

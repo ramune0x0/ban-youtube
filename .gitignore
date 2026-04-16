@@ -10,3 +10,4 @@ docs/wip/
 # Chrome extension build artifacts
 *.crx
 *.pem
+extension/_metadata/
